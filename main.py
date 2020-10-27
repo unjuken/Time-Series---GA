@@ -9,13 +9,9 @@ sarima0001007 = ts.TimeSeries((0, 0, 0), (1, 0, 0, 7))
 sarima0000107 = ts.TimeSeries((0, 0, 0), (0, 1, 0, 7))
 sarima0000017 = ts.TimeSeries((0, 0, 0), (0, 0, 1, 7))
 
+models = numpy.matrix([sarima1000007.predictions, sarima0100007.predictions, sarima0010007.predictions, sarima0001007.predictions, sarima0000107.predictions, sarima0000017.predictions]).transpose()
 
-prediction = ga.GeneticAlgorithm(sarima1000007.predictions, 
-                                sarima0100007.predictions, 
-                                sarima0100007.predictions, 
-                                sarima0001007.predictions, 
-                                sarima0000107.predictions, 
-                                sarima0000017.predictions, 
+prediction = ga.GeneticAlgorithm(models,
                                 sarima1000007.test_data,
                                 100)
 
