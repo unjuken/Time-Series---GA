@@ -44,15 +44,14 @@ class TimeSeries:
         train_end = datetime(2019,7,1)
         test_end = datetime(2020,1,1)
 
-        train_data = lim_catfish_sales[:train_end]
-        test_data = lim_catfish_sales[train_end + timedelta(days=1):test_end]
-        print(train_data)
+        self.train_data = lim_catfish_sales[:train_end]
+        self.test_data = lim_catfish_sales[train_end + timedelta(days=1):test_end]
 
         #my_order = (0,1,0)
         #my_seasonal_order = (1, 0, 1, 7)
 
         # define model
-        model = SARIMAX(train_data, order=my_order, seasonal_order=my_seasonal_order)
+        model = SARIMAX(self.train_data, order=my_order, seasonal_order=my_seasonal_order)
 
         #fit the model
         start = time()
@@ -64,10 +63,10 @@ class TimeSeries:
         print(model_fit.summary())
 
         #get the predictions and residuals
-        self.predictions = model_fit.forecast(len(test_data))
-        self.predictions = pd.Series(self.predictions, index=test_data.index)
-        residuals = test_data - self.predictions
-        self.MAPE = round(np.mean(abs(residuals/test_data)),4)
+        self.predictions = model_fit.forecast(len(self.test_data))
+        self.predictions = pd.Series(self.predictions, index=self.test_data.index)
+        residuals = self.test_data - self.predictions
+        self.MAPE = round(np.mean(abs(residuals/self.test_data)),4)
         self.RMSE = np.sqrt(np.mean(residuals**2))
 
         #print('Mean Absolute Percent Error:', )

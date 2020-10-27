@@ -9,13 +9,34 @@ What are the best values for the 6 weights (w1 to w6)? We are going to use the g
 """
 class GeneticAlgorithm:
 
-    def __init__(self, function_inputs, desired_output, numberOfGenerations):
+    def __init__(self, model1, model2, model3, model4, model5, model6, observations, numberOfGenerations):
         def fitness_func(solution, solution_idx):
             # Calculating the fitness value of each solution in the current population.
             # The fitness function calulates the sum of products between each input and its corresponding weight.
-            output = numpy.sum(solution*function_inputs)
-            fitness = 1.0 / numpy.abs(output - desired_output)
+            model1W = solution[0]
+            model2W = solution[1]
+            model3W = solution[2]
+            model4W = solution[3]
+            model5W = solution[4]
+            model6W = solution[5]
+            SEI = 0
+            i = 0
+            for observation in observations:
+                predictedObservation = model1[i]*model1W + \
+                model2[i]*model2W + \
+                model3[i]*model3W + \
+                model4[i]*model4W + \
+                model5[i]*model5W + \
+                model6[i]*model6W 
+                maxV = predictedObservation if predictedObservation > observation else observation 
+                minV = predictedObservation if predictedObservation < observation else observation
+                SEI += minV/maxV
+                i+=1
+            #endfor
+            #fitness = 1.0 / (observations.size - SEI)
+            fitness = SEI
             return fitness
+        #endFitFunc
 
         fitness_function = fitness_func
 
@@ -26,7 +47,7 @@ class GeneticAlgorithm:
         # 1) Prepare it yourself and pass it to the initial_population parameter. This way is useful when the user wants to start the genetic algorithm with a custom initial population.
         # 2) Assign valid integer values to the sol_per_pop and num_genes parameters. If the initial_population parameter exists, then the sol_per_pop and num_genes parameters are useless.
         sol_per_pop = 50 # Number of solutions in the population.
-        num_genes = len(function_inputs)
+        num_genes = 6 #Six differnt models
 
         init_range_low = 0
         init_range_high = 1
@@ -56,6 +77,8 @@ class GeneticAlgorithm:
                             num_genes=num_genes,
                             init_range_low=init_range_low,
                             init_range_high=init_range_high,
+                            random_mutation_min_val=init_range_low,
+                            random_mutation_max_val=init_range_high,
                             parent_selection_type=parent_selection_type,
                             keep_parents=keep_parents,
                             crossover_type=crossover_type,
@@ -75,9 +98,7 @@ class GeneticAlgorithm:
         print("Fitness value of the best solution = {solution_fitness}".format(solution_fitness=self.solution_fitness))
         print("Index of the best solution : {solution_idx}".format(solution_idx=self.solution_idx))
 
-        self.prediction = numpy.sum(numpy.array(function_inputs)*self.solution)
-
-        print("Predicted output based on the best solution : {prediction}".format(prediction=self.prediction))
+        #print("Predicted output based on the best solution : {prediction}".format(prediction=self.prediction))
 
         if ga_instance.best_solution_generation != -1:
             print("Best fitness value reached after {best_solution_generation} generations.".format(best_solution_generation=ga_instance.best_solution_generation))

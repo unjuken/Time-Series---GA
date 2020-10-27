@@ -10,8 +10,13 @@ sarima0000107 = ts.TimeSeries((0, 0, 0), (0, 1, 0, 7))
 sarima0000017 = ts.TimeSeries((0, 0, 0), (0, 0, 1, 7))
 
 
-final = numpy.concatenate((sarima1000007.predictions,sarima0100007.predictions,sarima0010007.predictions,sarima0001007.predictions,sarima0000107.predictions, sarima0000017.predictions))
+prediction = ga.GeneticAlgorithm(sarima1000007.predictions, 
+                                sarima0100007.predictions, 
+                                sarima0100007.predictions, 
+                                sarima0001007.predictions, 
+                                sarima0000107.predictions, 
+                                sarima0000017.predictions, 
+                                sarima1000007.test_data,
+                                100)
 
-prediction = ga.GeneticAlgorithm(final, 900000000, 100)
-
-print(prediction.prediction)
+print(prediction.solution)
