@@ -29,17 +29,7 @@ class TimeSeries:
         start_date = datetime(2017,1,1)
         end_date = datetime(2020,1,1)
         lim_catfish_sales = df[start_date:end_date]
-
-        first_diff = lim_catfish_sales.diff()[1:]
-
-
-        acf_vals = acf(first_diff)
-        num_lags = 20
-
-
-        pacf_vals = pacf(first_diff)
-        num_lags = 20
-
+        lim_catfish_sales = (lim_catfish_sales - lim_catfish_sales.min()) / (lim_catfish_sales.max() - lim_catfish_sales.min())
 
         train_end = datetime(2019,7,1)
         test_end = datetime(2020,1,1)
