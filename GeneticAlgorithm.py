@@ -52,7 +52,7 @@ class GeneticAlgorithm:
 
         # Parameters of the mutation operation.
         mutation_type = "random" # Type of the mutation operator.
-        mutation_percent_genes = 10 # Percentage of genes to mutate. This parameter has no action if the parameter mutation_num_genes exists or when mutation_type is None.
+        mutation_percent_genes = 80 # Percentage of genes to mutate. This parameter has no action if the parameter mutation_num_genes exists or when mutation_type is None.
 
         last_fitness = 0
         def callback_generation(ga_instance):
